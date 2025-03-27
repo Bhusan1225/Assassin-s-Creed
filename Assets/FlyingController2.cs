@@ -11,6 +11,7 @@ public class FlyingController2 : MonoBehaviour
     public float defaulLift = 1f;
     float dynamicLift;
     float fallRate;
+    float glideRate;
     public Slider thrustSlider;
 
 
@@ -23,11 +24,10 @@ public class FlyingController2 : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-    
         
-        transform.Translate(0, 0, thrust * Time.deltaTime);
+        transform.Translate(0, 0, (thrust + (glideRate *25)) * Time.deltaTime);
         transform.Rotate(dynamicLift, 0, 0);
 
         rb.velocity = new Vector3(0,rb.velocity.y * fallRate ,0);
@@ -66,5 +66,11 @@ public class FlyingController2 : MonoBehaviour
         thrust = thrustSlider.value * topSpeed;
         dynamicLift = thrustSlider.value * defaulLift;
         fallRate = 1f - thrustSlider.value;
+        glideRate = 1f - thrustSlider.value;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        glideRate = 0;
     }
 }

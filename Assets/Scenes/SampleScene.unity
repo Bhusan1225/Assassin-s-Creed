@@ -1761,7 +1761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thrust: 0
-  topSpeed: 40
+  topSpeed: 20
   defaulLift: -0.01
   thrustSlider: {fileID: 1222758232}
 --- !u!1 &651344477
