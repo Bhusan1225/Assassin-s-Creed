@@ -1,88 +1,76 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FlyingController : MonoBehaviour
 {
 
-    [SerializeField] private float flyingSpeed = 100f;
-    [SerializeField] private float resetSpeed = 100f;
-    [SerializeField] private float shiftSpeed = 150f;
-    [SerializeField] private float controllSpeed = 50f;
-
-    [SerializeField] private float horizontalSensitivity = 2f;
-    [SerializeField] private float verticalSensityity = 2f;
-
-    private float yaw = 0f;
-    private float pitch = 0f;
-
-    public Animator animator;
+    public float thrust;
+    public float topSpeed = 20f;
+    public float defaulLift = 1f;
+    float dynamicLift;
+    float fallRate;
+    float glideRate;
+    public Slider thrustSlider;
 
 
+    Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;   
-        Cursor.visible = false;
+        rb = GetComponent<Rigidbody>();
+        thrustSlider.onValueChanged.AddListener(delegate {ValueChangeCheck();});
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        yaw += horizontalSensitivity * Input.GetAxis("Mouse X");
-        pitch -= verticalSensityity * Input.GetAxis("Mouse Y");
-
-
-        transform.eulerAngles = new Vector3(pitch, yaw, 0f);
-
-        //fast flying
-        if(Input.GetKey(KeyCode.LeftShift) )
-        {
-            flyingSpeed = shiftSpeed;
-        }
-        else
-        {
-            flyingSpeed = resetSpeed;
-        }
-
         
-        //flying direction controll
-        if(Input.GetKey(KeyCode.W))
+        transform.Translate(0, 0, (thrust + (glideRate *25)) * Time.deltaTime);
+        transform.Rotate(dynamicLift, 0, 0);
+
+        rb.velocity = new Vector3(0,rb.velocity.y * fallRate ,0);
+
+        if (Input.GetKey(KeyCode.W))
         {
-            transform.localPosition += transform.forward * Time.deltaTime * controllSpeed;
-            animator.SetBool("UP", true);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.localPosition += -transform.right * Time.deltaTime * controllSpeed;
-            animator.SetBool("LEFT", true);
+            transform.Rotate(-0.5f, 0, 0);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.localPosition += -transform.forward * Time.deltaTime * controllSpeed;
-            animator.SetBool("DOWN", true);
+            transform.Rotate(0.5f, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Rotate(0,0 , 0.5f);
+            
         }
         if (Input.GetKey(KeyCode.D))
         {
-            transform.localPosition += transform.right * Time.deltaTime * controllSpeed;
-            animator.SetBool("RIGHT",true);
+            transform.Rotate(0, 0, -0.5f);
         }
-        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D) )
+
+        if (Input.GetKey(KeyCode.Q))
         {
-            animator.SetBool("FORWARD", true);
-            animator.SetBool("DOWN", false);
-            animator.SetBool("UP", false) ;
-            animator.SetBool("LEFT", false);
-            animator.SetBool("RIGHT", false);
-
-
+            transform.Rotate(0, -0.5f, 0);
         }
-        else
+        if (Input.GetKey(KeyCode.E))
         {
-            animator.SetBool("FORWARD", false );
-
+            transform.Rotate(0, 0.5f, 0);
         }
 
+    }
 
+     public void ValueChangeCheck()
+    {
+        thrust = thrustSlider.value * topSpeed;
+        dynamicLift = thrustSlider.value * defaulLift;
+        fallRate = 1f - thrustSlider.value;
+        glideRate = 1f - thrustSlider.value;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        glideRate = 0;
     }
 }
