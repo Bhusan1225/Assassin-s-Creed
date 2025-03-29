@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
         //resetting the default jump
         if (isGrounded && jump.y < 0f)
         {
-            jump.y = -2f;
+            jump.y = -5f;
         }
         Move();
 

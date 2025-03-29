@@ -18,6 +18,7 @@ public class FlyingCompanion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.rotation = player.rotation;
         transform.position = player.position - new Vector3(x, y, gap);   
     }
 }
