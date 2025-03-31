@@ -10,7 +10,8 @@ public class GameHandler : MonoBehaviour
     public FlyingCompanion flyingCompanion;
 
     //character object
-    public PlayerController playerController;
+    public GameObject player;
+    public PlayerController1 playerController;
     public GameObject playerCamera;
 
     //bool to check birdfollowing
@@ -34,6 +35,7 @@ public class GameHandler : MonoBehaviour
         {
             playerController.enabled = false; //player controller deacivated
             playerCamera.SetActive(false); //player camera deactivated
+            player.GetComponent<Animator>().enabled = false; //player Animator deactivated
 
             flyingCompanionCamara.SetActive(true); //bird camera activated
             flyingcontroller.enabled = true; //bird controller acivated 
@@ -46,7 +48,8 @@ public class GameHandler : MonoBehaviour
         {
             playerController.enabled = true; //player controller acivated
             playerCamera.SetActive(true); //player camera activated
-            
+            player.GetComponent<Animator>().enabled = true;
+
             flyingCompanionCamara.SetActive(false); //bird camera deactivated
             flyingcontroller.enabled = false; //bird controller deacivated 
             flyingCompanion.enabled = true; //bird's flying companion will acivated

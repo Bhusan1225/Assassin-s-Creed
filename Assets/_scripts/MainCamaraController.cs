@@ -42,4 +42,11 @@ public class MainCamaraController : MonoBehaviour
 
 
     }
+
+    public Quaternion flatRotaion => Quaternion.Euler(0, rotY, 0); 
+
+    //public Quaternion flatRotation()   
+    //{
+    //    return Quaternion.Euler(0, rotY, 0);
+    //}
 }
