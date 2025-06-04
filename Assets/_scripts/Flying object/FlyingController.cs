@@ -6,9 +6,10 @@ using UnityEngine.UI;
 public class FlyingController : MonoBehaviour
 {
 
-    public float thrust;
-    public float topSpeed = 20f;
-    public float defaulLift = 1f;
+
+    [SerializeField] float thrust;
+    [SerializeField] float topSpeed = 20f;
+    [SerializeField] float defaulLift = 1f;
     float dynamicLift;
     float fallRate;
     float glideRate;
@@ -60,7 +61,6 @@ public class FlyingController : MonoBehaviour
         }
 
     }
-
      public void ValueChangeCheck()
     {
         thrust = thrustSlider.value * topSpeed;

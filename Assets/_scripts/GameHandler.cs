@@ -5,14 +5,15 @@ using UnityEngine;
 public class GameHandler : MonoBehaviour
 {
     //flying object
-    public GameObject flyingCompanionCamara;
-    public FlyingController flyingcontroller;
-    public FlyingCompanion flyingCompanion;
+
+    [SerializeField] GameObject flyingCompanionCamara;
+    [SerializeField] FlyingController flyingcontroller;
+    [SerializeField] FlyingCompanion flyingCompanion;
 
     //character object
-    public GameObject player;
-    public PlayerController1 playerController;
-    public GameObject playerCamera;
+    [SerializeField] GameObject player;
+    [SerializeField] PlayerController1 playerController;
+    [SerializeField] GameObject playerCamera;
 
     //bool to check birdfollowing
     bool isBirdFollowing;

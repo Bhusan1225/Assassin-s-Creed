@@ -9,8 +9,6 @@ public class FlyingCompanion : MonoBehaviour
     public float gap = 1f;
     public Transform player;
 
- 
-
     // Update is called once per frame
     void Update()
     {
